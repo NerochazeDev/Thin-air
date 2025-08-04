@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/runner/workspace/contracts/MockAirdropToken.sol": {
-      "lastModificationDate": 1754349048446,
-      "contentHash": "c6f84fb97bd16c4eeedc90554d8c94f9",
+      "lastModificationDate": 1754349275374,
+      "contentHash": "4b4c608b13a8d685e89cc42b3d02963c",
       "sourceName": "contracts/MockAirdropToken.sol",
       "solcConfig": {
         "version": "0.8.28",
