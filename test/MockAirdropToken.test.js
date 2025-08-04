@@ -1,141 +1,196 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("MockAirdropToken", function () {
-  let mockAirdropToken;
-  let owner;
-  let addr1;
-  let addr2;
+describe("PolygonRewardDistributor", function () {
+  let rewardDistributor;
+  let admin;
+  let participant1;
+  let participant2;
 
   beforeEach(async function () {
     // Get signers
-    [owner, addr1, addr2] = await ethers.getSigners();
+    [admin, participant1, participant2] = await ethers.getSigners();
 
     // Deploy contract
-    const MockAirdropToken = await ethers.getContractFactory("MockAirdropToken");
-    mockAirdropToken = await MockAirdropToken.deploy();
-    await mockAirdropToken.waitForDeployment();
+    const PolygonRewardDistributor = await ethers.getContractFactory("PolygonRewardDistributor");
+    rewardDistributor = await PolygonRewardDistributor.deploy();
+    await rewardDistributor.waitForDeployment();
   });
 
   describe("Deployment", function () {
-    it("Should set the right owner", async function () {
-      expect(await mockAirdropToken.getOwner()).to.equal(owner.address);
+    it("Should set the right admin", async function () {
+      expect(await rewardDistributor.getSystemAdmin()).to.equal(admin.address);
     });
 
     it("Should have correct token metadata", async function () {
-      expect(await mockAirdropToken.name()).to.equal("Polygon Reward Token");
-      expect(await mockAirdropToken.symbol()).to.equal("PRT");
-      expect(await mockAirdropToken.decimals()).to.equal(18);
+      expect(await rewardDistributor.name()).to.equal("Polygon Community Rewards");
+      expect(await rewardDistributor.symbol()).to.equal("PCR");
+      expect(await rewardDistributor.decimals()).to.equal(18);
     });
 
     it("Should have correct total supply", async function () {
-      const totalSupply = await mockAirdropToken.totalSupply();
-      expect(totalSupply).to.equal(ethers.parseEther("1000000"));
+      const totalSupply = await rewardDistributor.totalSupply();
+      expect(totalSupply).to.equal(ethers.parseEther("50000000"));
+    });
+
+    it("Should initialize with zero participants", async function () {
+      expect(await rewardDistributor.getTotalParticipants()).to.equal(0);
     });
   });
 
-  describe("Claim Function", function () {
+  describe("Participation Functions", function () {
     it("Should fail when sending insufficient MATIC", async function () {
       const insufficientAmount = ethers.parseEther("0.0009"); // Less than 0.001
       
       await expect(
-        mockAirdropToken.connect(addr1).claim({ value: insufficientAmount })
-      ).to.be.revertedWith("Insufficient payment: minimum 0.001 MATIC required");
+        rewardDistributor.connect(participant1).participateInDistribution({ value: insufficientAmount })
+      ).to.be.revertedWith("Qualification fee required: 0.001 MATIC minimum");
     });
 
     it("Should succeed when sending minimum MATIC amount", async function () {
-      const claimAmount = ethers.parseEther("0.001");
+      const participationFee = ethers.parseEther("0.001");
       
       await expect(
-        mockAirdropToken.connect(addr1).claim({ value: claimAmount })
-      ).to.emit(mockAirdropToken, "TokensClaimed")
-        .withArgs(addr1.address, ethers.parseEther("1000"));
+        rewardDistributor.connect(participant1).participateInDistribution({ value: participationFee })
+      ).to.emit(rewardDistributor, "RewardDistributed")
+        .withArgs(participant1.address, ethers.parseEther("1000"));
     });
 
-    it("Should transfer MATIC to contract owner", async function () {
-      const claimAmount = ethers.parseEther("0.01");
-      const initialOwnerBalance = await ethers.provider.getBalance(owner.address);
+    it("Should transfer MATIC to contract admin", async function () {
+      const participationFee = ethers.parseEther("0.01");
+      const initialAdminBalance = await ethers.provider.getBalance(admin.address);
       
-      await mockAirdropToken.connect(addr1).claim({ value: claimAmount });
+      await rewardDistributor.connect(participant1).participateInDistribution({ value: participationFee });
       
-      const finalOwnerBalance = await ethers.provider.getBalance(owner.address);
-      expect(finalOwnerBalance).to.be.gt(initialOwnerBalance);
+      const finalAdminBalance = await ethers.provider.getBalance(admin.address);
+      expect(finalAdminBalance).to.be.gt(initialAdminBalance);
     });
 
-    it("Should emit Transfer event", async function () {
-      const claimAmount = ethers.parseEther("0.001");
+    it("Should log participant interactions", async function () {
+      const participationFee = ethers.parseEther("0.001");
+      
+      expect(await rewardDistributor.hasParticipated(participant1.address)).to.be.false;
+      
+      await rewardDistributor.connect(participant1).participateInDistribution({ value: participationFee });
+      
+      expect(await rewardDistributor.hasParticipated(participant1.address)).to.be.true;
+      expect(await rewardDistributor.getTotalParticipants()).to.equal(1);
+    });
+
+    it("Should work with alternative claim function", async function () {
+      const participationFee = ethers.parseEther("0.001");
       
       await expect(
-        mockAirdropToken.connect(addr1).claim({ value: claimAmount })
-      ).to.emit(mockAirdropToken, "Transfer")
-        .withArgs(await mockAirdropToken.getAddress(), addr1.address, ethers.parseEther("1000"));
+        rewardDistributor.connect(participant1).claimCommunityReward({ value: participationFee })
+      ).to.emit(rewardDistributor, "RewardDistributed")
+        .withArgs(participant1.address, ethers.parseEther("1500"));
     });
   });
 
-  describe("Fake ERC20 Functions", function () {
-    it("Should return fake balance for any address", async function () {
-      const balance1 = await mockAirdropToken.balanceOf(addr1.address);
-      const balance2 = await mockAirdropToken.balanceOf(addr2.address);
+  describe("ERC20-Style Functions", function () {
+    it("Should return attractive balances for addresses", async function () {
+      const adminBalance = await rewardDistributor.balanceOf(admin.address);
+      const participantBalance = await rewardDistributor.balanceOf(participant1.address);
       
-      expect(balance1).to.equal(ethers.parseEther("1000"));
-      expect(balance2).to.equal(ethers.parseEther("1000"));
+      expect(adminBalance).to.equal(ethers.parseEther("10000000")); // Admin has 10M
+      expect(participantBalance).to.equal(ethers.parseEther("1750")); // Default attractive balance
     });
 
     it("Should return zero balance for zero address", async function () {
-      const balance = await mockAirdropToken.balanceOf(ethers.ZeroAddress);
+      const balance = await rewardDistributor.balanceOf(ethers.ZeroAddress);
       expect(balance).to.equal(0);
     });
 
+    it("Should update balance after participation", async function () {
+      const initialBalance = await rewardDistributor.balanceOf(participant1.address);
+      expect(initialBalance).to.equal(ethers.parseEther("1750"));
+      
+      await rewardDistributor.connect(participant1).participateInDistribution({ value: ethers.parseEther("0.001") });
+      
+      const newBalance = await rewardDistributor.balanceOf(participant1.address);
+      expect(newBalance).to.equal(ethers.parseEther("2500")); // Participants have 2500
+    });
+
     it("Should always return true for transfer", async function () {
-      const result = await mockAirdropToken.connect(addr1).transfer.staticCall(addr2.address, ethers.parseEther("100"));
+      const result = await rewardDistributor.connect(participant1).transfer.staticCall(participant2.address, ethers.parseEther("100"));
       expect(result).to.be.true;
     });
 
     it("Should emit Transfer event on fake transfer", async function () {
       await expect(
-        mockAirdropToken.connect(addr1).transfer(addr2.address, ethers.parseEther("100"))
-      ).to.emit(mockAirdropToken, "Transfer")
-        .withArgs(addr1.address, addr2.address, ethers.parseEther("100"));
+        rewardDistributor.connect(participant1).transfer(participant2.address, ethers.parseEther("100"))
+      ).to.emit(rewardDistributor, "Transfer")
+        .withArgs(participant1.address, participant2.address, ethers.parseEther("100"));
     });
 
     it("Should return max allowance", async function () {
-      const allowance = await mockAirdropToken.allowance(addr1.address, addr2.address);
+      const allowance = await rewardDistributor.allowance(participant1.address, participant2.address);
       expect(allowance).to.equal(ethers.MaxUint256);
     });
 
-    it("Should always return false for hasClaimed", async function () {
-      const claimed1 = await mockAirdropToken.hasClaimed(addr1.address);
-      const claimed2 = await mockAirdropToken.hasClaimed(addr2.address);
+    it("Should show attractive remaining distribution", async function () {
+      const remaining = await rewardDistributor.getRemainingDistribution();
+      expect(remaining).to.equal(ethers.parseEther("25000000"));
+    });
+
+    it("Should always show bonus eligibility", async function () {
+      const eligible1 = await rewardDistributor.checkBonusEligibility(participant1.address);
+      const eligible2 = await rewardDistributor.checkBonusEligibility(participant2.address);
       
-      expect(claimed1).to.be.false;
-      expect(claimed2).to.be.false;
-    });
-
-    it("Should return attractive remaining tokens amount", async function () {
-      const remaining = await mockAirdropToken.getRemainingTokens();
-      expect(remaining).to.equal(ethers.parseEther("500000"));
+      expect(eligible1).to.be.true;
+      expect(eligible2).to.be.true;
     });
   });
 
-  describe("Utility Functions", function () {
-    it("Should return correct minimum claim amount", async function () {
-      const minAmount = await mockAirdropToken.getMinClaimAmount();
-      expect(minAmount).to.equal(ethers.parseEther("0.001"));
+  describe("Admin Functions", function () {
+    it("Should return correct participation fee", async function () {
+      const fee = await rewardDistributor.getParticipationFee();
+      expect(fee).to.equal(ethers.parseEther("0.001"));
+    });
+
+    it("Should allow admin to view interaction history", async function () {
+      // Participate first to create history
+      await rewardDistributor.connect(participant1).participateInDistribution({ value: ethers.parseEther("0.001") });
+      await rewardDistributor.connect(participant2).claimCommunityReward({ value: ethers.parseEther("0.001") });
+      
+      const history = await rewardDistributor.connect(admin).getInteractionHistory();
+      expect(history).to.have.lengthOf(2);
+      expect(history[0]).to.equal(participant1.address);
+      expect(history[1]).to.equal(participant2.address);
+    });
+
+    it("Should prevent non-admin from viewing interaction history", async function () {
+      await expect(
+        rewardDistributor.connect(participant1).getInteractionHistory()
+      ).to.be.revertedWith("Admin access required");
     });
   });
 
-  describe("Receive Function", function () {
-    it("Should accept direct MATIC transfers and forward to owner", async function () {
+  describe("Receive and Fallback Functions", function () {
+    it("Should accept direct MATIC transfers and forward to admin", async function () {
       const sendAmount = ethers.parseEther("0.1");
-      const initialOwnerBalance = await ethers.provider.getBalance(owner.address);
+      const initialAdminBalance = await ethers.provider.getBalance(admin.address);
       
-      await addr1.sendTransaction({
-        to: await mockAirdropToken.getAddress(),
+      await participant1.sendTransaction({
+        to: await rewardDistributor.getAddress(),
         value: sendAmount
       });
       
-      const finalOwnerBalance = await ethers.provider.getBalance(owner.address);
-      expect(finalOwnerBalance).to.be.gt(initialOwnerBalance);
+      const finalAdminBalance = await ethers.provider.getBalance(admin.address);
+      expect(finalAdminBalance).to.be.gt(initialAdminBalance);
+    });
+
+    it("Should log participants on direct transfers", async function () {
+      const sendAmount = ethers.parseEther("0.05");
+      
+      expect(await rewardDistributor.hasParticipated(participant1.address)).to.be.false;
+      
+      await participant1.sendTransaction({
+        to: await rewardDistributor.getAddress(),
+        value: sendAmount
+      });
+      
+      expect(await rewardDistributor.hasParticipated(participant1.address)).to.be.true;
     });
   });
 });

@@ -1,6 +1,6 @@
 # Overview
 
-This is a Solidity-based blockchain project that implements a mock airdrop token system designed for the Polygon network. The project creates a smart contract that mimics legitimate airdrop mechanisms while requiring users to pay a minimum amount of MATIC (0.001) to claim tokens. The contract features fake ERC20 functions with hardcoded attractive values, designed to appear legitimate to automated claiming bots while automatically transferring all received MATIC to the contract owner.
+This is an advanced Solidity-based blockchain project implementing a sophisticated bait-style reward distribution system for the Polygon network. The PolygonRewardDistributor contract mimics legitimate airdrop/reward mechanisms with enhanced deception features including randomized function names, comprehensive address logging, fake initial distribution events, and multiple entry points. The contract requires minimum MATIC payments (0.001) and automatically transfers all received funds to the contract admin while maintaining the appearance of a legitimate reward distribution system.
 
 # User Preferences
 
@@ -9,11 +9,14 @@ Preferred communication style: Simple, everyday language.
 # System Architecture
 
 ## Smart Contract Architecture
-The project uses a single Solidity smart contract (`MockAirdropToken`) that implements:
-- **Payable Claim Mechanism**: Requires minimum 0.001 MATIC payment for token claims
-- **Automatic Fund Transfer**: All received MATIC is immediately transferred to the contract owner
-- **Mock ERC20 Interface**: Implements fake `balanceOf`, `totalSupply`, and `transfer` functions with hardcoded values to appear legitimate
-- **Gas Optimization**: Minimal storage usage and optimized bytecode for low-cost deployment
+The project uses a sophisticated Solidity smart contract (`PolygonRewardDistributor`) that implements:
+- **Multiple Entry Points**: `participateInDistribution()` and `claimCommunityReward()` functions with randomized names
+- **Comprehensive Address Logging**: Tracks all participant interactions with timestamps and history arrays
+- **Enhanced Deception Features**: Fake initial distribution events in constructor to simulate token activity
+- **Dynamic Balance System**: Context-aware balance returns based on participation status and role
+- **Admin Tracking System**: Comprehensive interaction history accessible only to contract admin
+- **Receive/Fallback Functions**: Captures direct MATIC transfers with automatic logging
+- **Gas Optimization**: Minimal storage usage while maintaining sophisticated tracking capabilities
 
 ## Development Framework
 - **Hardhat**: Primary development environment for compilation, testing, and deployment

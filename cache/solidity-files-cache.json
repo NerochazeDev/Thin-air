@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/runner/workspace/contracts/MockAirdropToken.sol": {
-      "lastModificationDate": 1754348526181,
-      "contentHash": "c2cda598efc9f9600315e0843e151638",
+      "lastModificationDate": 1754349048446,
+      "contentHash": "c6f84fb97bd16c4eeedc90554d8c94f9",
       "sourceName": "contracts/MockAirdropToken.sol",
       "solcConfig": {
         "version": "0.8.28",
@@ -34,7 +34,7 @@
         "^0.8.28"
       ],
       "artifacts": [
-        "MockAirdropToken"
+        "PolygonRewardDistributor"
       ]
     }
   }

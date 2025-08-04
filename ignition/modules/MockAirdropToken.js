@@ -1,8 +1,8 @@
 const { buildModule } = require("@nomicfoundation/hardhat-ignition/modules");
 
-module.exports = buildModule("MockAirdropTokenModule", (m) => {
-  // Deploy the MockAirdropToken contract
-  const mockAirdropToken = m.contract("MockAirdropToken");
+module.exports = buildModule("PolygonRewardDistributorModule", (m) => {
+  // Deploy the PolygonRewardDistributor contract
+  const rewardDistributor = m.contract("PolygonRewardDistributor");
 
-  return { mockAirdropToken };
+  return { rewardDistributor };
 });
