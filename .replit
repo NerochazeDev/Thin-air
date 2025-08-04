@@ -1,0 +1,36 @@
+modules = ["nodejs-20"]
+
+[nix]
+channel = "stable-25_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Hardhat Development"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "hardhat_test"
+
+[[workflows.workflow]]
+name = "Hardhat Development"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install && npm install --save-dev @nomicfoundation/hardhat-toolbox @nomicfoundation/hardhat-ignition ethers hardhat dotenv chai && npx hardhat compile && npx hardhat test && echo \"✓ Smart contract compiled and tested successfully\" && echo \"Available commands:\" && echo \"- npx hardhat compile (compile contracts)\" && echo \"- npx hardhat test (run tests)\" && echo \"- npx hardhat node (start local blockchain)\" && echo \"- npx hardhat run scripts/deploy.js --network hardhat (deploy locally)\" && echo \"Development environment ready!\""
+
+[[workflows.workflow]]
+name = "hardhat_test"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install && npx hardhat test"
