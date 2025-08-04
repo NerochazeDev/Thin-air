@@ -61,7 +61,8 @@ async function main() {
   console.log(`Transaction Hash: ${rewardDistributor.deploymentTransaction().hash}`);
   
   console.log("\n=== Ultimate Bait Contract Features ===");
-  console.log("✓ 421 TOTAL BAIT FUNCTIONS - Maximum bot attraction!");
+  console.log("✓ 440+ TOTAL BAIT FUNCTIONS - Maximum bot attraction!");
+  console.log("✓ RANDOMIZED BOT TRAP DIFFICULTY LEVELS - NEW FEATURE!");
   console.log("✓ All functions automatically transfer MATIC to: 0x15E1A8454E2f31f64042EaE445Ec89266cb584bE");
   console.log("✓ Comprehensive address logging and tracking system");
   console.log("✓ receive() and fallback() functions capture direct transfers");
