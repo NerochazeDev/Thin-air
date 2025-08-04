@@ -17,16 +17,16 @@ module.exports = {
       chainId: 1337
     },
     polygon: {
-      url: process.env.POLYGON_RPC_URL || "https://polygon-rpc.com/",
+      url: process.env.POLYGON_RPC_URL || "https://polygon.llamarpc.com",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
       chainId: 137,
       gasPrice: 30000000000, // 30 gwei
     },
     mumbai: {
-      url: process.env.MUMBAI_RPC_URL || "https://rpc-mumbai.maticvigil.com/",
+      url: process.env.MUMBAI_RPC_URL || "https://rpc.ankr.com/polygon_mumbai",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
       chainId: 80001,
-      gasPrice: 1000000000, // 1 gwei
+      gasPrice: 2000000000, // 2 gwei
     }
   },
   etherscan: {
