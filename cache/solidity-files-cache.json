@@ -36,6 +36,78 @@
       "artifacts": [
         "PolygonRewardDistributor"
       ]
+    },
+    "/home/runner/workspace/contracts/BaseBotTrap.sol": {
+      "lastModificationDate": 1754352898254,
+      "contentHash": "1e5e4532ca11cb2a2ff9afc48f8c2afd",
+      "sourceName": "contracts/BaseBotTrap.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "BaseRewardDistributor"
+      ]
+    },
+    "/home/runner/workspace/contracts/SolanaBotTrap.sol": {
+      "lastModificationDate": 1754352863857,
+      "contentHash": "9d1fc9c8cb6f276e2f654b411e2094c8",
+      "sourceName": "contracts/SolanaBotTrap.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "SolanaStyleRewardDistributor"
+      ]
     }
   }
 }
