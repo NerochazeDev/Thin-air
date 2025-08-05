@@ -17,7 +17,7 @@ module.exports = {
       chainId: 1337
     },
     polygon: {
-      url: process.env.POLYGON_RPC_URL || "https://polygon.llamarpc.com",
+      url: process.env.POLYGON_RPC_URL || "https://polygon-rpc.com/",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
       chainId: 137,
       gasPrice: 30000000000, // 30 gwei
